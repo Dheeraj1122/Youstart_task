@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Student</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Fill Student Details</h1>
+                <form>
+                    
+                    <div class="form-group">
+                        <label for="name">Add Name</label>
+                        <input type="text" id="name" class="form-control"/>
+                    </div>
+
+                                        <label for="course">Select Course</label>
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                    <label class="form-check-label" for="inlineCheckbox1">Angular</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                    <label class="form-check-label" for="inlineCheckbox2">Node</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                    <label class="form-check-label" for="inlineCheckbox3">MongoDB</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option4">
+                    <label class="form-check-label" for="inlineCheckbox4">React</label>
+                    </div>
+
+               
+                    <button class="btn btn-primary" id="addDetail" type="button">Add</button>
+                </form>    
+                <hr />
+
+                <h1>Student Dashboard</h1>
+                <ul id="names" class="list-group">
+
+                    </ul>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+    var baseUrl = 'http://localhost:3000';
+        $(document).ready(function() {
+            function loadNames() {
+               // $('#names').empty();
+            $.ajax({
+               url: baseUrl + '/names',
+                    method: 'get'
+            }).done(function(names){
+                $('#names').empty();
+            $(names).each(function(index, name){
+                console.log(name);
+                $('#names').append('<li class ="list-group-item">' 
+                +name.desc 
+                +'<button class="btn btn-danger pull-right">X</button>'
+                +'<div class="clearfix"</div>'
+                + '</li>');
+            });
+            }
+            )}
+
+            
+            
+            loadNames();
+            $("#addName").click(function() {
+                var name = $("#name").val();
+                console.log(name);
+                var data = { name: name };
+
+                $.ajax({
+                    url: baseUrl + '/names',
+                    method: 'post',
+                    data: data
+                }).done(function() {
+                   loadNames();
+                   $("#name").val('');
+                })
+            });
+        });
+    </script>
+
+   
+</body>
+</html>
